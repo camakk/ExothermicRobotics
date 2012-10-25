@@ -59,7 +59,8 @@ void pre_auton()
   // displayLCDCenteredString(1, "hello, world");
 // }
 
-//Autonomous
+// SUPPORT METHODS
+//Autonomous support program
 int auto()
 {
   int a = -2;
@@ -89,6 +90,7 @@ int auto()
 }
 //++5programming skills  +-3isolation red  -+4isolation blue  --2nothing
 
+// Driving support
 void drive(int x)
 {
       motor[LB] = 127;
@@ -97,6 +99,9 @@ void drive(int x)
       motor[RF] = 127;
       wait1Msec(x);
 }
+
+//  ACTUAL METHODS
+// Actual autonomous
 task autonomous()
 {
   clearLCDLine(1);
@@ -226,8 +231,6 @@ task autonomous()
 
 task usercontrol()
 {
-
-
 	while (true)
 	{
     //Movement
