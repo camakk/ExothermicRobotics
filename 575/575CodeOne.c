@@ -91,11 +91,11 @@ int auto()
 // Used for autonomous.
 void drive(int x)
 {
-      motor[LB] = 127;
-      motor[LF] = 127;
-      motor[RB] = 127;
-      motor[RF] = 127;
-      wait1Msec(x);
+  motor[LB] = 127;
+  motor[LF] = 127;
+  motor[RB] = 127;
+  motor[RF] = 127;
+  wait1Msec(x);
 }
 
 //  ACTUAL METHODS
