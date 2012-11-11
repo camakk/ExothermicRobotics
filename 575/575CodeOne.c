@@ -29,14 +29,6 @@
 
 #include "Vex_Competition_Includes.c"   //Main competition background code...do not modify!
 
-/////////////////////////////////////////////////////////////////////////////////////////
-//
-//                          Pre-Autonomous Functions
-//
-// You may want to perform some actions before the competition starts. Do them in the
-// following function.
-//
-/////////////////////////////////////////////////////////////////////////////////////////
 
 // Basically smooths the data received from the controller.
 // Uses a cubic function to make the acceleration smooth and not jerky or sudden.
@@ -44,6 +36,9 @@ int cubicMap(int x)
 {
 	return ((((x*3)/25)*((x*3)/25)*((x*3)/25)/27 + x/2)*2)/3;
 }
+
+
+
 
 // All activities that occur before the competition starts
 // Example: clearing encoders, setting servo positions, ...
@@ -54,160 +49,70 @@ void pre_auton()
   bStopTasksBetweenModes = true;
 }
 
-// SUPPORT METHODS
-//Autonomous support program
-//Uses data from the potentiometers to find which autonomous function to run.
-int auto()
-{
-  int a = 0;
-  int b = 0;
 
-  ////- minus
-  //if (SensorValue[AutoPot1] >= 1150)
-  //{
-  //  a = 0;
-  //}
-  ////+ plus
-  //if (SensorValue[AutoPot1] <= 1150)
-  //{
-  //  a = 1;
-  //}
-  ////- minus
-  //if (SensorValue[AutoPot2] >= 2350)
-  //{
-  //  b = 2;
-  //}
-  ////+ plus
-  //if (SensorValue[AutoPot2] <= 2350)
-  //{
-  //  b = 4;
-  //}
 
-  return a+b;
-}
-//++5programming skills  +-3isolation red  -+4isolation blue  --2nothing
 
-// Drives forward for x seconds on full power.
-// Used for autonomous.
-void drive(int x)
-{
-  motor[LB] = 127;
-  motor[LF] = 127;
-  motor[RB] = 127;
-  motor[RF] = 127;
-  wait1Msec(x);
-}
-
-//  ACTUAL METHODS
-// Actual autonomous
+// Code for autonomous
 task autonomous()
 {
-  clearLCDLine(1);
-  clearLCDLine(2);
-  clearLCDLine(3);
-
+		// ADD AUTONOMOUS CODE HERE
 }
+
+
 
 task usercontrol()
 {
 	while (true)
 	{
-    //Movement
-    int channel1 = cubicMap(vexRT[Ch1]);
-    int channel3 = cubicMap(vexRT[Ch3]);
-    int channel4 = cubicMap(vexRT[Ch4]);
-    motor(RF) = channel3 - channel4 - channel1;
-    motor(LB) = channel3 - channel4 + channel1;
-    motor(RB) = channel3 + channel4 - channel1;
-    motor(LF) = channel3 + channel4 + channel1;
-
-    //Lift
-    if (vexRT[Btn6D] == 1)
-    {
-    	motor(RArm1) = 127;
-    	motor(RArm2) = 127;
-    	motor(LArm1) = -127;
-    	motor(LArm2) = -127;
-    }
-    else if (vexRT[Btn6U] == 1)
-    {
-      motor(RArm1) = -127;
-      motor(RArm2) = -127;
-      motor(LArm1) = 127;
-      motor(LArm2) = 127;
-    }
-    else
-  	{
-      motor(RArm1) = 0;
-      motor(RArm2) = 0;
-      motor(LArm1) = 0;
-      motor(LArm2) = 0;
-    }
 
 
-    // Pneumatics
-    // Temporarily two-button
-    //if( vexRT[Btn7R] == 1 )
-    //{
+    		// Basic Mecanum Movement
+		int channel1 = cubicMap(vexRT[Ch1]);
+    		int channel3 = cubicMap(vexRT[Ch3]);
+    		int channel4 = cubicMap(vexRT[Ch4]);
+    		motor(RF) = channel3 - channel4 - channel1;
+    		motor(LB) = channel3 - channel4 + channel1;
+    		motor(RB) = channel3 + channel4 - channel1;
+    		motor(LF) = channel3 + channel4 + channel1;
 
-    //}
 
-  ////Rollers
-  //if (vexRT[Btn6D] == 1 || vexRT[Btn6U] == 1)
-  //{
-  //  if (vexRT[Btn6D] == 1)
-  //  {
-  //    motor(Roll1) = 70;
-  //    motor(Roll2) = 70;
-  //  }
-  //  if (vexRT[Btn6U] == 1)
-  //  {
-  //    motor(Roll1) = -127;
-  //    motor(Roll2) = -127;
-  //  }
-  //}
-  //else
-  //{
-  //  motor(Roll1) = 0;
-  //  motor(Roll2) = 0;
-  //}
 
-    //Arm Presets
-    // while (vexRT[Btn7U] == 1)
-    // {
-      // if (SensorValue[ArmPot] > 300)
-      // {
-          // motor[Arm1] = -127;
-          // motor[Arm2] = -127;
-      // }
-      // if (SensorValue[ArmPot] < 300)
-      // {
-          // motor[Arm1] = 127;
-          // motor[Arm2] = 127;
-      // }
-          // motor[Arm1] = 0;
-          // motor[Arm2] = 0;
-    // }
-    // while (vexRT[Btn7D] == 1)
-    // {
-      // if (SensorValue[ArmPot] > 200)
-      // {
-        // while(SensorValue[ArmPot] > 200)
-        // {
-          // motor[Arm1] = -127;
-          // motor[Arm2] = -127;
-        // }
-      // }
-      // if (SensorValue[ArmPot] < 200)
-      // {
-        // while (SensorValue[ArmPot] < 200)
-        // {
-          // motor[Arm1] = 127;
-          // motor[Arm2] = 127;
-        // }
-      // }
-          // motor[Arm1] = 0;
-          // motor[Arm2] = 0;
-     // }
+    		// Basic Arm Movement
+    		if (vexRT[Btn6D] == 1)			// lower the arm
+    		{
+    			motor(RArm1) = 127;
+    			motor(RArm2) = 127;
+    			motor(LArm1) = -127;
+    			motor(LArm2) = -127;
+    		}
+		else if (vexRT[Btn6U] == 1)		// raise the arm
+    		{
+     			motor(RArm1) = -127;
+      			motor(RArm2) = -127;
+      			motor(LArm1) = 127;
+      			motor(LArm2) = 127;
+    		}
+    		else					// supply no current to the arm
+  		{
+      			motor(RArm1) = 0;
+      			motor(RArm2) = 0;
+      			motor(LArm1) = 0;
+      			motor(LArm2) = 0;
+    		}
+
+
+		// Basic Pneumatic Firing
+		if(vexRT[Btn7D])
+		{
+			// FIRE THE PISTON!!
+		}
+		else if(vexRT[Btn7U])
+		{
+			// FIRE THE PISTON THE OTHER WAY!
+		} else {
+			// LOL NO PISTON FIRING HERE
+		}
+
+
 	}
 }
